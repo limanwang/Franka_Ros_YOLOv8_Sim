@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+        <param name="box_path" type="str" value="$(find grasp_demo)/models/box_red/model.sdf"/>
+        <param name="banana_path" type="str" value="$(find grasp_demo)/models/banana/model.sdf"/>
+        <param name="coke_path" type="str" value="$(find grasp_demo)/models/coke_can/model.sdf"/>
+        
+        <param name="person_path" type="str" value="$(find grasp_demo)/models/person_standing/model.sdf"/>
+        
+        <node name="obj_spawner" pkg="grasp_demo" type="spawn_obj.py" output="screen"/>
+        
+</launch>

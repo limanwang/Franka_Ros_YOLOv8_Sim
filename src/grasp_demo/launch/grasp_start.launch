@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>	
+
+	<!--start server -->
+	<node pkg="grasp_demo" type="cam_to_real.py" name= "CamtoReal"/>
+	<node pkg="grasp_demo" type="obj_grasp_node.py" name= "grasp_main" output="screen" />
+
+</launch>

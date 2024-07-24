@@ -1,0 +1,14 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/eunice/panda_ws/devel/lib/python3/dist-packages",
+        "/home/eunice/ws_moveit/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/usr/lib/python2.7/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/eunice/panda_ws/devel/lib/python3/dist-packages",
+        "/home/eunice/ws_moveit/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/usr/lib/python2.7/dist-packages"
+    ]
+}

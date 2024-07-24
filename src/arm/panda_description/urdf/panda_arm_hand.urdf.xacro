@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+  <xacro:include filename="$(find panda_description)/xacro/panda_arm.xacro"/>
+  <xacro:include filename="$(find panda_description)/xacro/hand.xacro"/>
+
+  <!-- for simulation -->
+  <xacro:include filename="$(find panda_description)/xacro/panda.gazebo.xacro"/>
+  <xacro:include filename="$(find panda_description)/xacro/panda.control.xacro"/>
+  <!-- end for simulation -->
+
+  <xacro:panda_arm />
+  <xacro:hand ns="panda" rpy="0 0 ${-pi/4}" connected_to="panda_link8"/>
+  <xacro:panda_gazebo arm_id="panda"/>
+  <xacro:panda_control arm_id="panda" load_hand="true" />
+  <!-- for simulation -->
+  <xacro:arg name="robot_name" default="panda"/>
+  <!-- end for simulation -->
+</robot>

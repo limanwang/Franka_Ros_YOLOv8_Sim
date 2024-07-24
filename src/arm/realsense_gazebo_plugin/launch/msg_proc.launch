@@ -1,0 +1,77 @@
+<launch>
+  <param name="use_sim_time" value="true" />
+
+  <!-- See name assigned in realsense-RS200.macro.xacro -->
+  <arg name="camera_name" default="r200" />
+
+  <arg name="rgb_camera_info" value="/$(arg camera_name)/camera/color/camera_info"/>
+  <arg name="depth_camera_info" value="/$(arg camera_name)/camera/depth/camera_info"/>
+  <arg name="rgb_img_raw" value="/$(arg camera_name)/camera/color/image_raw"/>  <!--Raw color image-->
+  <arg name="depReg_imgraw" value="/$(arg camera_name)/camera/depth/image_raw"/>  <!--Raw depth image-->
+
+  <!-- Outputs -->
+  <arg name="rgb_img_rect" value="/$(arg camera_name)/camera/color/image_rect"/>  <!--Rectified color image-->
+  <arg name="depReg_imgrect" value="/$(arg camera_name)/camera/depth/image_rect"/>  <!--Rectofoed depth image-->
+  <arg name="dep_registered_imgrect" value="/$(arg camera_name)/camera/depth_registered/image_rect"/>  <!--Raw depth image-->
+  <arg name="dep_registered_camera_info" value="/$(arg camera_name)/camera/depth_registered/camera_info"/>
+  <arg name="out_cloud" value="/$(arg camera_name)/camera/depth_registered/points"/>
+
+
+
+  <node pkg="nodelet" type="nodelet" name="standalone_nodelet" args="manager" output="screen"/>
+
+
+  <!-- Rectify color image -->
+  <node pkg="image_proc" type="image_proc" name="image_proc" output="screen">
+    <remap from="image_raw" to="$(arg rgb_img_raw)"/>
+    <remap from="camera_info" to="$(arg rgb_camera_info)"/>
+
+    <remap from="image_rect_color" to="$(arg rgb_img_rect)"/>
+  </node>
+
+
+
+
+
+  <!-- Rectified raw image (internal use) -->
+  <node pkg="nodelet" type="nodelet" name="rectify_depth"
+        args="load image_proc/rectify standalone_nodelet --no-bond">
+    <remap from="image_mono"  to="$(arg depReg_imgraw)" />
+    <remap from="image_rect"  to="$(arg depReg_imgrect)_raw" />
+    <!-- Use nearest neighbor (0) interpolation so we don't streak across
+         depth boundaries -->
+    <param name="interpolation" value="0" />
+  </node>
+  <!-- Convert depth from mm (in uint16) to meters -->
+  <node pkg="nodelet" type="nodelet" name="convert_metric" args="load depth_image_proc/convert_metric standalone_nodelet">
+    <remap from="image_raw" to="$(arg depReg_imgrect)_raw"/>
+    <remap from="image" to="$(arg depReg_imgrect)"/>
+  </node>
+  <!-- 
+  $(arg depReg_imgrect)_raw - Depth Rectified Image in mm.
+  $(arg depReg_imgrect) - Depth Rectified Image in meters
+  -->
+
+
+
+
+  <!-- Register depth image in RGB frame -->
+  <node pkg="nodelet" type="nodelet" name="register" args="load depth_image_proc/register standalone_nodelet">
+    <remap from="rgb/camera_info"   to="$(arg rgb_camera_info)"/>
+    <remap from="depth/camera_info" to="$(arg depth_camera_info)"/>
+    <remap from="depth/image_rect"  to="$(arg depReg_imgrect)"/>
+
+    <remap from="depth_registered/image_rect"  to="$(arg dep_registered_imgrect)"/>
+    <remap from="depth_registered/camera_info"  to="$(arg dep_registered_camera_info)"/>
+  </node>
+
+  <!-- Construct point cloud of the rgb and depth topics -->
+  <node pkg="nodelet" type="nodelet" name="points_xyzrgb" args="load depth_image_proc/point_cloud_xyzrgb standalone_nodelet --no-bond">
+    <remap from="rgb/camera_info" to="$(arg rgb_camera_info)" />
+    <remap from="rgb/image_rect_color" to="$(arg rgb_img_rect)"/>
+    <remap from="depth_registered/image_rect" to="$(arg dep_registered_imgrect)"/>
+
+    <remap from="depth_registered/points" to="$(arg out_cloud)"/>
+  </node>
+
+</launch>

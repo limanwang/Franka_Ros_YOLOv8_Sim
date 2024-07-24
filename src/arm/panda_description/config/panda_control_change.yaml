@@ -1,0 +1,86 @@
+arm_id: $(arg arm_id) 
+
+# Publish joint states
+joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 100
+
+panda_arm_controller:
+    arm_id: $(arg arm_id) 
+    type: effort_controllers/JointTrajectoryController
+    joints:
+        - $(arg arm_id)_joint1
+        - $(arg arm_id)_joint2
+        - $(arg arm_id)_joint3
+        - $(arg arm_id)_joint4
+        - $(arg arm_id)_joint5
+        - $(arg arm_id)_joint6
+        - $(arg arm_id)_joint7
+
+    gains:
+        # source: https://sebastianwallkoetter.wordpress.com/2020/03/08/franka-emika-panda-in-gazebo-with-ros-and-docker/
+        $(arg arm_id)_joint1: { p: 12000, d: 50, i: 0.0, i_clamp: 10000 }
+        $(arg arm_id)_joint2: { p: 30000, d: 100, i: 0.02, i_clamp: 10000 }
+        $(arg arm_id)_joint3: { p: 18000, d: 50, i: 0.01, i_clamp: 1 }
+        $(arg arm_id)_joint4: { p: 18000, d: 70, i: 0.01, i_clamp: 10000 }
+        $(arg arm_id)_joint5: { p: 12000, d: 70, i: 0.01, i_clamp: 1 }
+        $(arg arm_id)_joint6: { p: 7000, d: 50, i: 0.01, i_clamp: 1 }
+        $(arg arm_id)_joint7: { p: 2000, d: 20, i: 0.0, i_clamp: 1 }
+
+    constraints:
+        goal_time: 2.0
+
+    state_publish_rate: 100
+
+panda_hand_controller:
+    arm_id: $(arg arm_id) 
+    #type: position_controllers/JointTrajectoryController
+    type: effort_controllers/JointTrajectoryController
+    joints:
+        - $(arg arm_id)_finger_joint1
+        - $(arg arm_id)_finger_joint2
+
+    gains:
+        $(arg arm_id)_finger_joint1: { p: 5, d: 3.0, i: 0, i_clamp: 1 }
+        $(arg arm_id)_finger_joint2: { p: 5, d: 1.0, i: 0, i_clamp: 1 }
+
+    state_publish_rate: 25
+
+joint_position_controller:
+    arm_id: $(arg arm_id) s
+    #type: position_controllers/JointTrajectoryController
+    type: effort_controllers/JointTrajectoryController
+    joints:
+        - $(arg arm_id)_joint1
+        - $(arg arm_id)_joint2
+        - $(arg arm_id)_joint3
+        - $(arg arm_id)_joint4
+        - $(arg arm_id)_joint5
+        - $(arg arm_id)_joint6
+        - $(arg arm_id)_joint7
+
+    gains:
+        $(arg arm_id)_joint1: {p: 10, d: 1, i: 0.1, i_clamp: 1}
+        $(arg arm_id)_joint2: {p: 10, d: 1, i: 0.1, i_clamp: 1}
+        $(arg arm_id)_joint3: {p: 10, d: 1, i: 0.1, i_clamp: 1}
+        $(arg arm_id)_joint4: {p: 10, d: 1, i: 0.1, i_clamp: 1}
+        $(arg arm_id)_joint5: {p: 10, d: 1, i: 0.1, i_clamp: 1}
+        $(arg arm_id)_joint6: {p: 10, d: 1, i: 0.1, i_clamp: 1}
+        $(arg arm_id)_joint7: {p: 10, d: 1, i: 0.1, i_clamp: 1}
+
+    state_publish_rate: 100
+
+# joint_position_controller:
+#     type: panda_simulator/JointPositionController
+#     arm_id: panda
+#     joint_names:
+#         - panda_joint1
+#         - panda_joint2
+#         - panda_joint3
+#         - panda_joint4
+#         - panda_joint5
+#         - panda_joint6
+#         - panda_joint7
+#     gains: [
+#       1, 1, 1, 1, 1, 1, 1
+#    ]

@@ -1,0 +1,2 @@
+arm/gazebo_ros_link_attacher:arm/panda_description:arm/panda_moveit_config:arm/realsense_gazebo_plugin:arm/rpl_panda_with_rs:grasp_demo:yolov8_ros/yolov8_ros:yolov8_ros/yolov8_ros_msgs
+-DCATKIN_DEVEL_PREFIX=/home/eunice/panda2_ws/devel -DCMAKE_INSTALL_PREFIX=/home/eunice/panda2_ws/install -G Unix Makefiles

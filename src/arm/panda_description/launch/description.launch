@@ -1,0 +1,26 @@
+<launch>
+
+	<!-- GAZEBO arguments -->
+	<arg name="load_gripper" 	  default="true" />
+	<arg name="robot_urdf_xacro"  default="$(find panda_description)/urdf/panda_with_rs.urdf.xacro"/>
+	<arg name="robot_srdf_xacro"  default="$(find panda_description)/srdf/panda_with_rs.srdf.xacro"/>
+	<!-- The name of the parameter under which the URDF is loaded -->
+	<arg name="robot_description" default="robot_description"/>
+	<arg name="rvizconfig" 		  default="$(find panda_description)/rviz/urdf.rviz" />
+	<arg name="custom_gazebo_world"      default="" />
+	<arg name="camera_name"      default="d435" />
+	<arg name="verbose"					default="false"/>
+
+
+
+	<!--
+	SHOW ROBOT IN GAZEBO
+	-->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" default="$(find panda_description)/worlds/grasp_people.world"/>
+		<arg name="paused" value="true"/>
+		<arg name="verbose" value="$(arg verbose)"/>
+	</include>
+
+
+</launch>

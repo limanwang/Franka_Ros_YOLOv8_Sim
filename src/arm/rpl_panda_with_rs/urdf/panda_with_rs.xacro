@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+
+  <!-- franka -->
+  <xacro:include filename="$(find franka_description)/robots/panda_arm_hand.urdf.xacro" />
+
+  <!-- RS -->
+  <xacro:include filename="$(find realsense_gazebo_plugin)/urdf/realsense-RS200.macro.xacro"/>
+  <!-- Here we include the end-effector by setting the parameters -->
+  <xacro:realsense-rs200 prefix="" parent="panda_link8">
+    <origin xyz="0.03 -0.03 0.05" rpy="0 ${-pi/2} ${3*pi/4}" />
+  </xacro:realsense-rs200>  
+</robot>

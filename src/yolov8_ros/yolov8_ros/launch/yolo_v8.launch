@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+
+  <!-- Load Parameter -->
+  
+  <param name="yolov8_path"       value="$(find yolov8_ros)/yolov8"/>
+  <param name="use_cpu"           value="false" />
+
+  <!-- Start yolov8 and ros wrapper -->
+  <node pkg="yolov8_ros" type="yolo_v8_human.py" name="yolov8_ros1" output="screen" >
+    <param name="weight_path1"       value="$(find yolov8_ros)/weights/best.pt"/>
+    <param name="weight_path2"       value="$(find yolov8_ros)/weights/yolov8n-pose.pt"/>
+    <!-- simulation camera -->
+    <param name="image_topic"       value="/camera1/rgb/image_raw" />
+    <!-- realistic camera -->
+    <!-- <param name="image_topic"       value="/camera/color/image_raw" /> -->
+    <!-- <param name="pub_topic1"         value="/yolov8/HumanBoundingBoxes" /> -->
+    <param name="pub_topic"         value="/yolov8/KeypointBoundingBoxes" />
+    <param name="camera_frame"       value="camera1_color_frame"/>
+    <param name="conf"              value="0.50" />
+  </node>
+
+  <node pkg="yolov8_ros" type="yolo_v8_obj.py" name="yolov8_ros2" output="screen" >
+    <param name="weight_path1"       value="$(find yolov8_ros)/weights/best.pt"/>
+    <param name="weight_path2"       value="$(find yolov8_ros)/weights/yolov8n-pose.pt"/>
+    <!-- simulation camera -->
+    <param name="image_topic"       value="/camera1/rgb/image_raw" />
+    <!-- realistic camera -->
+    <!-- <param name="image_topic"       value="/camera/color/image_raw" /> -->
+    <param name="pub_topic"         value="/yolov8/ObjBoundingBoxes" />
+    <param name="camera_frame"       value="camera1_color_frame"/>
+    <param name="conf"              value="0.50" />
+  </node>
+
+</launch>

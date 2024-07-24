@@ -1,0 +1,47 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/eunice/panda_ws/devel/include/**",
+        "/home/eunice/ws_moveit/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_planners/chomp/chomp_motion_planner/include/**",
+        "/home/eunice/ws_moveit/src/common-sensors/common_sensors/include/**",
+        "/home/eunice/ws_moveit/src/darknet_ros/darknet_ros/include/**",
+        "/opt/ros/noetic/share/franka_gazebo/include/**",
+        "/home/eunice/panda_ws/src/arm/gazebo_ros_link_attacher/include/**",
+        "/home/eunice/ws_moveit/src/geometric_shapes/include/**",
+        "/home/eunice/panda_ws/src/grasp_demo/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_planners/chomp/chomp_interface/include/**",
+        "/home/eunice/ws_moveit/src/moveit_resources/prbt_ikfast_manipulator_plugin/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_ros/benchmarks/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_plugins/moveit_ros_control_interface/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_ros/move_group/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_ros/occupancy_map_monitor/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_ros/robot_interaction/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_ros/moveit_servo/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_setup_assistant/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_plugins/moveit_simple_controller_manager/include/**",
+        "/home/eunice/ws_moveit/src/moveit_visual_tools/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_planners/pilz_industrial_motion_planner/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_planners/pilz_industrial_motion_planner_testutils/include/**",
+        "/home/eunice/panda_ws/src/arm/realsense_gazebo_plugin/include/**",
+        "/home/eunice/ws_moveit/src/ros_openpose/include/**",
+        "/home/eunice/ws_moveit/src/rviz_visual_tools/include/**",
+        "/home/eunice/ws_moveit/src/moveit/moveit_planners/sbpl/core/sbpl_interface/include/**",
+        "/home/eunice/ws_moveit/src/srdfdom/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

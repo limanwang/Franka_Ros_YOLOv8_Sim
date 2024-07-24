@@ -1,0 +1,117 @@
+<launch>
+    <!-- GAZEBO arguments -->
+    <arg name="load_gripper" 	  default="true" />
+	<arg name="robot_urdf_xacro"  default="$(find rpl_panda_with_rs)/urdf/panda_with_rs.xacro"/>
+	<arg name="robot_srdf_xacro"  default="$(find rpl_panda_with_rs)/srdf/panda_with_rs.srdf.xacro"/>
+	<!-- The name of the parameter under which the URDF is loaded -->
+	<arg name="robot_description" default="robot_description"/>
+	<arg name="rvizconfig" 		  default="$(find rpl_panda_with_rs)/rviz/urdf.rviz" />
+	<arg name="custom_gazebo_world"      default="worlds/empty.world" />
+	<arg name="camera_name"      default="r200" />
+    
+	<!--
+	Realsense RGD-D plugin. Publishes registered rectified images and pointcloud
+	-->
+    <include file="$(find realsense_gazebo_plugin)/launch/msg_proc.launch">
+    	<arg name="camera_name" value="$(arg camera_name)"/>
+    </include>
+
+	<!--
+	Load descriptions
+	-->
+	<param
+	    name="robot_description"
+	    command="$(find xacro)/xacro '$(arg robot_urdf_xacro)'"
+	/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+
+
+	<!--
+	SHOW ROBOT IN GAZEBO
+	-->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(arg custom_gazebo_world)" unless="$(eval custom_gazebo_world == '')"/>
+		<arg name="paused" value="true"/>
+	</include>
+	<node
+	    name="spawn_model"
+	    pkg="gazebo_ros"
+	    type="spawn_model"
+	    respawn = "false"
+	    output = "screen"
+	    args="
+            -J panda_joint4 -1.571
+            -J panda_joint6 1.571
+            -J panda_joint7 0.785
+	    	-urdf 
+	    	-param robot_description 
+	    	-model panda
+            -unpause
+	    	"
+	/>
+
+	<!--
+	ROBOT CONTROL PUBLISHERS
+	-->
+	<node name="state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    <node name="joint_state_desired_publisher" pkg="topic_tools" type="relay" args="joint_states joint_states_desired" />
+
+	
+	<!--
+	START RVIZ
+	-->	
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true">
+		<rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml"/>
+	</node>
+
+
+
+	<!--
+	FRANKA CONTROL
+	-->
+    <include file="$(find panda_moveit_config)/launch/move_group.launch">
+        <arg name="load_gripper" value="$(arg load_gripper)" />
+    </include>
+
+
+	<!--
+	PANDA SIMULATOR
+	-->
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find panda_simulator)/config/panda_control.yaml" command="load" />
+    <!-- load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller panda_arm_controller" />
+    <node if="$(arg load_gripper)" name="controller_spawner_hand" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="panda_hand_controller" />
+
+    <!-- launch robot control node for moveit motion planning -->
+    <node pkg="panda_simulator" type="robot_control_node" name="robot_control_node" output="screen" />
+
+    <!-- load (not start!) custom joint position controller -->
+    <node pkg="controller_manager" type="spawner" name="joint_position_launcher" args="--stopped joint_position_controller" />
+
+    <!-- run custom node for automatic intialization -->
+    <!--node pkg="panda_simulator" type="robot_state_initializer_node" name="robot_state_initializer_node" /-->
+
+
+    <!-- overwrite parameters -->
+
+	<!-- Load updated joint limits (override information from URDF) -->
+	<group ns="$(arg robot_description)_planning">
+		<rosparam command="load" file="$(find panda_moveit_config)/config/joint_limits.yaml"/>
+	</group>
+	<!-- Load default settings for kinematics; these settings are overridden by settings in a node's namespace -->
+	<group ns="$(arg robot_description)_kinematics">
+		<rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml"/>
+	</group>
+
+    <!-- 
+    semantic description, must be last to overwrite previous
+    semantic descriptions because they dont ignore collisions 
+    between the robot and its camera
+     -->
+  	<param 
+		name="robot_description_semantic" 
+		command="$(find xacro)/xacro --inorder '$(arg robot_srdf_xacro)'"
+	/>
+</launch>

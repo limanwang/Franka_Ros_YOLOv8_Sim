@@ -1,0 +1,8 @@
+prefix=/home/eunice/panda2_ws/install
+
+Name: yolov8_ros
+Description: Description of yolov8_ros
+Version: 1.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/home/eunice/panda2_ws/install
+
+Name: rpl_panda_with_rs
+Description: Description of rpl_panda_with_rs
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

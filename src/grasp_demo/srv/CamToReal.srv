@@ -1,0 +1,10 @@
+float64 pixel_x
+float64 pixel_y
+---
+float64 obj_x
+float64 obj_y
+float64 obj_z
+bool result
+
+
+
