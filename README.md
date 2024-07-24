@@ -1,3 +1,4 @@
+# Simulation for Franka Robot Visual Grasping
 <img title="a title" alt="Alt text" src="/images/1.png">
 
 # Requirements
@@ -12,18 +13,18 @@ sudo apt-get install ros-noetic-moveit
 sudo apt-get install ros-noetic-camera-info-manager
 ```
 # Launch Commands
-## Step 1. Launch the descriptions files for robot and scenes.
+Step 1. Launch the descriptions files for robot and scenes.
 
 `roslaunch panda_description description_original.launch `
 
 
-## Step 2. You need to create the conda env first then activate it.
+Step 2. You need to create the conda env first then activate it.
 `conda activate yolo8`
 
-## Step 3. Launch the YOLO detection nodes and start detecting.
+Step 3. Launch the YOLO detection nodes and start detecting.
 `roslaunch yolov8_ros yolo_v8.launch`
 
-## Step 4. Start the grasping process which will grasp one object then hand it to people.
+Step 4. Start the grasping process which will grasp one object then hand it to people.
 `roslaunch grasp_demo grasp_start.launch`
 
 # Transfer from Sim to Real
