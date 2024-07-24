@@ -2,7 +2,9 @@
 <img title="a title" alt="Alt text" src="/images/1.png">
 
 # Requirements
-Ubuntu20, Ros Noetic, Moveit1, YoloV8
+Have been tested successfuly: Ubuntu20, Ros Noetic, Moveit1, YoloV8
+cd ~/yolov8_ros
+`pip install -r requirement.txt`
 
 ## Some useful installation commands
 ```
@@ -12,6 +14,7 @@ sudo apt-get install ros-noetic-ros-controllers
 sudo apt-get install ros-noetic-moveit
 sudo apt-get install ros-noetic-camera-info-manager
 ```
+
 # Launch Commands
 Step 1. Launch the descriptions files for robot and scenes.
 
@@ -19,7 +22,7 @@ Step 1. Launch the descriptions files for robot and scenes.
 
 
 Step 2. You need to create the conda env first then activate it.
-`conda activate yolo8`
+`conda activate yolov8`
 
 Step 3. Launch the YOLO detection nodes and start detecting.
 `roslaunch yolov8_ros yolo_v8.launch`

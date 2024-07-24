@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import cv2
@@ -9,7 +9,9 @@ import numpy as np
 from std_msgs.msg import Header
 from sensor_msgs.msg import Image
 from yolov8_ros_msgs.msg import BoundingBox, BoundingBoxes
+
 from ultralytics import YOLO
+
 
 # 关键点 BGR 配色
 kpt_color_map = {
@@ -295,7 +297,7 @@ class Yolo_Dect:
             self.position_pub.publish(self.boundingBoxes)
         # 发送图像话题
         self.publish_image(img, height, width)
-        cv2.imshow('YOLOv8', img)
+        # cv2.imshow('YOLOv8', img)
 
     # 画图 同时将检测的图像发布出去 方便rviz上观看
     def dectshow2(self, org_img, boxs, prob, cls, height, width):
@@ -359,7 +361,7 @@ class Yolo_Dect:
         # 发送图像话题
         self.publish_image(img, height, width)
         print('finish onetime')
-        # cv2.imshow('YOLOV8_obj', img)
+        cv2.imshow('YOLOV8_obj', img)
 
     # rviz上订阅所需函数
     def publish_image(self, imgdata, height, width):
@@ -376,11 +378,13 @@ class Yolo_Dect:
 
 
 def main():
-    rospy.init_node('yolov8_ros', anonymous=True)
+    
+    rospy.init_node('yolov8_ros_obj', anonymous=True)
+    print('main2')
     yolo_dect = Yolo_Dect()
     rospy.spin()
 
 
 if __name__ == "__main__":
-
+    
     main()

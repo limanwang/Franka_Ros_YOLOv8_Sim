@@ -1,0 +1,4 @@
+rospkg
+netifaces
+ultralytics
+PyYAML

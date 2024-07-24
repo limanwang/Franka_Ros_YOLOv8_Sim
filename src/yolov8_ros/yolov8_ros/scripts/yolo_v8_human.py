@@ -336,7 +336,7 @@ class Yolo_Dect:
         # 发送图像话题
         self.publish_image(img, height, width)
         print('finish onetime')
-        # cv2.imshow('YOLOv8_human', img)
+        cv2.imshow('YOLOv8_human', img)
 
     # 画图 同时将检测的图像发布出去 方便rviz上观看
     def dectshow2(self, org_img, boxs, prob, cls, height, width):
@@ -399,7 +399,7 @@ class Yolo_Dect:
             self.position_pub1.publish(self.boundingBoxes)
         # 发送图像话题
         self.publish_image(img, height, width)
-        cv2.imshow('YOLOv5', img)
+        # cv2.imshow('YOLOv5', img)
 
     # rviz上订阅所需函数
     def publish_image(self, imgdata, height, width):
@@ -416,11 +416,13 @@ class Yolo_Dect:
 
 
 def main():
-    rospy.init_node('yolov8_ros', anonymous=True)
+    
+    rospy.init_node('yolov8_ros_human', anonymous=True)
+    print('main1')
     yolo_dect = Yolo_Dect()
     rospy.spin()
 
 
 if __name__ == "__main__":
-
+    
     main()
