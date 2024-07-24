@@ -1,3 +1,5 @@
+<img title="a title" alt="Alt text" src="/images/1.png">
+
 # Requirements
 Ubuntu20, Ros Noetic, Moveit1, YoloV8
 
