@@ -2,7 +2,7 @@
 <img title="a title" alt="Alt text" src="/images/1.png">
 
 # Requirements
-Have been tested successfuly: Ubuntu20, Ros Noetic, Moveit1, YOLOv8
+Have been tested successfully on: Ubuntu20, Ros Noetic, Moveit1, YOLOv8
 
 cd ~/yolov8_ros
 
